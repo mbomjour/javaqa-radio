@@ -10,7 +10,7 @@ public class RadioTest {
     @ParameterizedTest
     @CsvFileSource(files = "src/test/resources/stations.csv")
 
-    public void shouldSetStation(int target, int expected) { // номер станции
+    public void shouldSetStation(int target, int expected) {
         Radio radio = new Radio();
         radio.setCurrentStation(target);
 
@@ -20,7 +20,7 @@ public class RadioTest {
     }
 
     @Test
-    public void shouldSetNextStation() { // номер станции больше допустимого значения
+    public void shouldSetNextStation() {
         Radio radio = new Radio();
         radio.setCurrentStation(3);
         radio.next();
@@ -32,7 +32,7 @@ public class RadioTest {
     }
 
     @Test
-    public void shouldSetStationNextToLast() { // номер станции больше допустимого значения
+    public void shouldSetStationNextToLast() {
         Radio radio = new Radio();
         radio.setCurrentStation(9);
         radio.next();
@@ -44,7 +44,7 @@ public class RadioTest {
     }
 
     @Test
-    public void shouldSetPrevStation() { // номер станции больше допустимого значения
+    public void shouldSetPrevStation() {
         Radio radio = new Radio();
         radio.setCurrentStation(6);
         radio.prev();
@@ -56,7 +56,7 @@ public class RadioTest {
     }
 
     @Test
-    public void shouldSetStationPreFirst() { // номер станции больше допустимого значения
+    public void shouldSetStationPreFirst() {
         Radio radio = new Radio();
         radio.setCurrentStation(0);
         radio.prev();
@@ -70,7 +70,7 @@ public class RadioTest {
     @ParameterizedTest
     @CsvFileSource(files = "src/test/resources/volume.csv")
 
-    public void shouldSetVolume(int target, int expected) { // номер станции
+    public void shouldSetVolume(int target, int expected) {
         Radio radio = new Radio();
         radio.setCurrentVolume(target);
 
@@ -80,7 +80,7 @@ public class RadioTest {
     }
 
     @Test
-    public void shouldIncreaseVolume() { // номер станции больше допустимого значения
+    public void shouldIncreaseVolume() {
         Radio radio = new Radio();
         radio.setCurrentVolume(72);
         radio.increaseVolume();
@@ -92,7 +92,7 @@ public class RadioTest {
     }
 
     @Test
-    public void shouldNotIncreaseVolumeOverMax() { // номер станции больше допустимого значения
+    public void shouldNotIncreaseVolumeOverMax() {
         Radio radio = new Radio();
         radio.setCurrentVolume(100);
         radio.increaseVolume();
@@ -104,7 +104,7 @@ public class RadioTest {
     }
 
     @Test
-    public void shouldDecreaseVolume() { // номер станции больше допустимого значения
+    public void shouldDecreaseVolume() {
         Radio radio = new Radio();
         radio.setCurrentVolume(38);
         radio.decreaseVolume();
@@ -116,7 +116,7 @@ public class RadioTest {
     }
 
     @Test
-    public void shouldNotDecreaseVolumeUnderMin() { // номер станции больше допустимого значения
+    public void shouldNotDecreaseVolumeUnderMin() {
         Radio radio = new Radio();
         radio.setCurrentVolume(0);
         radio.decreaseVolume();
