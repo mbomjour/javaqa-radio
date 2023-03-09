@@ -6,12 +6,12 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 
 public class RadioTest {
+    Radio radio = new Radio();
 
-    @ParameterizedTest
-    @CsvFileSource(files = "src/test/resources/stations.csv")
+    @ParameterizedTest // количество станций не задано (по умолчанию)
+    @CsvFileSource(files = "src/test/resources/stations-default-qty.csv")
 
-    public void shouldSetStation(int target, int expected) {
-        Radio radio = new Radio();
+    public void shouldSetStationIfQtyDefault(int target, int expected) {
         radio.setCurrentStation(target);
 
         int actual = radio.getCurrentStation();
@@ -21,11 +21,10 @@ public class RadioTest {
 
     @Test
     public void shouldSetNextStation() {
-        Radio radio = new Radio();
-        radio.setCurrentStation(3);
+        radio.setCurrentStation(8);
         radio.next();
 
-        int expected = 4;
+        int expected = 9;
         int actual = radio.getCurrentStation();
 
         Assertions.assertEquals(expected, actual);
@@ -33,7 +32,6 @@ public class RadioTest {
 
     @Test
     public void shouldSetStationNextToLast() {
-        Radio radio = new Radio();
         radio.setCurrentStation(9);
         radio.next();
 
@@ -45,7 +43,125 @@ public class RadioTest {
 
     @Test
     public void shouldSetPrevStation() {
-        Radio radio = new Radio();
+        radio.setCurrentStation(8);
+        radio.prev();
+
+        int expected = 7;
+        int actual = radio.getCurrentStation();
+
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldSetStationPreFirst() {
+        radio.setCurrentStation(0);
+        radio.prev();
+
+        int expected = 9;
+        int actual = radio.getCurrentStation();
+
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @ParameterizedTest // количество станций задано выше стандартного
+    @CsvFileSource(files = "src/test/resources/stations-over-default.csv")
+
+    public void shouldSetStationIfQty12(int target, int expected) {
+        Radio radio = new Radio(12);
+        radio.setCurrentStation(target);
+
+        int actual = radio.getCurrentStation();
+
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldSetNextStationQty12() {
+        Radio radio = new Radio(12);
+        radio.setCurrentStation(10);
+        radio.next();
+
+        int expected = 11;
+        int actual = radio.getCurrentStation();
+
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldSetStationNextToLastQty12() {
+        Radio radio = new Radio(12);
+        radio.setCurrentStation(11);
+        radio.next();
+
+        int expected = 0;
+        int actual = radio.getCurrentStation();
+
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldSetPrevStationQty12() {
+        Radio radio = new Radio(12);
+        radio.setCurrentStation(10);
+        radio.prev();
+
+        int expected = 9;
+        int actual = radio.getCurrentStation();
+
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldSetStationPreFirstQty12() {
+        Radio radio = new Radio(12);
+        radio.setCurrentStation(0);
+        radio.prev();
+
+        int expected = 11;
+        int actual = radio.getCurrentStation();
+
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @ParameterizedTest // количество станций задано ниже стандартного
+    @CsvFileSource(files = "src/test/resources/stations-under-default.csv")
+
+    public void shouldSetStationIfQty8(int target, int expected) {
+        Radio radio = new Radio(8);
+        radio.setCurrentStation(target);
+
+        int actual = radio.getCurrentStation();
+
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldSetNextStationQty8() {
+        Radio radio = new Radio(8);
+        radio.setCurrentStation(6);
+        radio.next();
+
+        int expected = 7;
+        int actual = radio.getCurrentStation();
+
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldSetStationNextToLastQty8() {
+        Radio radio = new Radio(8);
+        radio.setCurrentStation(7);
+        radio.next();
+
+        int expected = 0;
+        int actual = radio.getCurrentStation();
+
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldSetPrevStationQty8() {
+        Radio radio = new Radio(8);
         radio.setCurrentStation(6);
         radio.prev();
 
@@ -56,12 +172,12 @@ public class RadioTest {
     }
 
     @Test
-    public void shouldSetStationPreFirst() {
-        Radio radio = new Radio();
+    public void shouldSetStationPreFirst8() {
+        Radio radio = new Radio(8);
         radio.setCurrentStation(0);
         radio.prev();
 
-        int expected = 9;
+        int expected = 7;
         int actual = radio.getCurrentStation();
 
         Assertions.assertEquals(expected, actual);
@@ -71,7 +187,6 @@ public class RadioTest {
     @CsvFileSource(files = "src/test/resources/volume.csv")
 
     public void shouldSetVolume(int target, int expected) {
-        Radio radio = new Radio();
         radio.setCurrentVolume(target);
 
         int actual = radio.getCurrentVolume();
@@ -81,7 +196,6 @@ public class RadioTest {
 
     @Test
     public void shouldIncreaseVolume() {
-        Radio radio = new Radio();
         radio.setCurrentVolume(72);
         radio.increaseVolume();
 
@@ -93,7 +207,6 @@ public class RadioTest {
 
     @Test
     public void shouldNotIncreaseVolumeOverMax() {
-        Radio radio = new Radio();
         radio.setCurrentVolume(100);
         radio.increaseVolume();
 
@@ -105,7 +218,6 @@ public class RadioTest {
 
     @Test
     public void shouldDecreaseVolume() {
-        Radio radio = new Radio();
         radio.setCurrentVolume(38);
         radio.decreaseVolume();
 
@@ -117,7 +229,6 @@ public class RadioTest {
 
     @Test
     public void shouldNotDecreaseVolumeUnderMin() {
-        Radio radio = new Radio();
         radio.setCurrentVolume(0);
         radio.decreaseVolume();
 
